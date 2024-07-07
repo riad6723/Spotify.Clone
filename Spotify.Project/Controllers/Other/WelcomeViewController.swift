@@ -26,6 +26,11 @@ class WelcomeViewController: UIViewController {
     
     @objc private func didTapSignIn() {
         let vc = AuthViewController()
+        vc.completionHandler = { [weak self] success in
+            DispatchQueue.main.async {
+                self?.handleSignIn(success: success)
+            }
+        }
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -33,6 +38,10 @@ class WelcomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         button.frame = CGRect(x: 20, y: view.frame.size.height - 50 - view.safeAreaInsets.bottom, width: view.frame.size.width - 40, height: 50)
+    }
+    
+    private func handleSignIn(success: Bool) {
+        
     }
 
 }
