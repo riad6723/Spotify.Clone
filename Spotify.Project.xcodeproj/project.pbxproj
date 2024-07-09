@@ -29,6 +29,7 @@
 		E09A4D542C35BBDA00B135B2 /* AutdioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D532C35BBDA00B135B2 /* AutdioTrack.swift */; };
 		E09A4D562C35BBE400B135B2 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D552C35BBE400B135B2 /* Artist.swift */; };
 		E09A4D582C35BC0200B135B2 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D572C35BC0200B135B2 /* UserProfile.swift */; };
+		E0B1E5672C3DAD5700F8B6B8 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		E09A4D532C35BBDA00B135B2 /* AutdioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutdioTrack.swift; sourceTree = "<group>"; };
 		E09A4D552C35BBE400B135B2 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		E09A4D572C35BC0200B135B2 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				E09A4D532C35BBDA00B135B2 /* AutdioTrack.swift */,
 				E09A4D552C35BBE400B135B2 /* Artist.swift */,
 				E09A4D572C35BC0200B135B2 /* UserProfile.swift */,
+				E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				E09A4D522C35BBCD00B135B2 /* Playlist.swift in Sources */,
 				E09A4D4C2C35BB6A00B135B2 /* AuthManager.swift in Sources */,
 				E09A4D4A2C35BB4F00B135B2 /* SearchResultsViewController.swift in Sources */,
+				E0B1E5672C3DAD5700F8B6B8 /* AuthResponse.swift in Sources */,
 				E09A4D402C35BB0A00B135B2 /* WelcomeViewController.swift in Sources */,
 				E09A4D4E2C35BB9100B135B2 /* APICaller.swift in Sources */,
 				E09A4D442C35BB2300B135B2 /* ProfileViewController.swift in Sources */,
