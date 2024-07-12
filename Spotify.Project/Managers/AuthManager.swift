@@ -39,11 +39,17 @@ final class AuthManager {
     }
     
     private var tokenExpirationDate: Date? {
-        return nil //TO DO
+        return UserDefaults.standard.object(forKey: "expirationDate") as? Date
     }
     
     private var shouldRefreshToken: Bool {
-        return false // TO DO
+        guard let tokenExpirationDate = tokenExpirationDate else {
+            return false
+        }
+        let currDate: Date = Date()
+        let timeInterval: TimeInterval = 300
+        let totalTime = currDate.addingTimeInterval(timeInterval)
+        return totalTime >= tokenExpirationDate
     }
     
     public func exchangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
@@ -76,7 +82,7 @@ final class AuthManager {
         
         URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             guard let data = data, error == nil else {
-                print("failed inside data and error checking with error : \(String(describing: error?.localizedDescription))")
+                print("failed inside error and data with the following error : \(String(describing: error?.localizedDescription))")
                 completion(false)
                 return
             }
@@ -87,7 +93,7 @@ final class AuthManager {
                 print("The json response is: \(result)")
                 completion(true)
             } catch {
-                print("json convertion failed")
+                print("json conversion failed")
                 completion(false)
             }
         }.resume()
@@ -96,9 +102,21 @@ final class AuthManager {
     private func cacheToken(result: AuthResponse) {
         UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
         UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
-        //UserDefaults.standard.setValue(Data().addingTi, forKey: "access_token"), .... NEED TO ADD TIME INTERVAL HERE INTO USERDEFAULTS
+        let currDate = Date()
+        let futureDate = currDate.addingTimeInterval(TimeInterval(result.expires_in))
+        UserDefaults.standard.setValue(futureDate, forKey: "expirationDate")
     }
     
-    public func refreashAccessToken() {
+    public func refreashIfNeeded(completion: @escaping (Bool) -> Void) {
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
+        
+        guard let refreshToken = refreshToken else {
+            return
+        }
+        
+        //TO DO -> need to call api by refresh token to get the access token -> 20:46
     }
 }
