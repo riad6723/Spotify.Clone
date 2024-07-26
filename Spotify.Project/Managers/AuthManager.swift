@@ -109,6 +109,22 @@ final class AuthManager {
         UserDefaults.standard.setValue(futureDate, forKey: "expirationDate")
     }
     
+    public func withValidToken(completion: @escaping (String) -> Void) {
+        if shouldRefreshToken {
+            refreashIfNeeded {[weak self] success in
+                guard success, let accessToken = self?.accessToken else {
+                    return
+                }
+                completion(accessToken)
+            }
+        } else {
+            guard let accessToken = accessToken else {
+                return
+            }
+            completion(accessToken)
+        }
+    }
+    
     public func refreashIfNeeded(completion: @escaping (Bool) -> Void) {
         guard shouldRefreshToken else {
             completion(true)
