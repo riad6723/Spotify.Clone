@@ -20,6 +20,9 @@ final class AuthManager {
         static let scopes = "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
     }
     
+    private var refreshingToken = false
+    private var onRefreshBlocks = [(String) -> Void]()
+    
     public var signInURL: URL? {
         let base = "https://accounts.spotify.com/authorize"
         let string = "\(base)?response_type=code&client_id=\(Constants.clientId)&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURL)&show_dialog=TRUE"
@@ -101,7 +104,7 @@ final class AuthManager {
     
     private func cacheToken(result: AuthResponse) {
         UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
-        if let refreshToken = refreshToken {
+        if let refreshToken {
             UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
         }
         let currDate = Date()
@@ -110,6 +113,10 @@ final class AuthManager {
     }
     
     public func withValidToken(completion: @escaping (String) -> Void) {
+        guard !refreshingToken else {
+            onRefreshBlocks.append(completion)
+            return
+        }
         if shouldRefreshToken {
             refreashIfNeeded {[weak self] success in
                 guard success, let accessToken = self?.accessToken else {
@@ -126,6 +133,10 @@ final class AuthManager {
     }
     
     public func refreashIfNeeded(completion: @escaping (Bool) -> Void) {
+        guard !refreshingToken else {
+            return
+        }
+        
         guard shouldRefreshToken else {
             completion(true)
             return
@@ -140,6 +151,7 @@ final class AuthManager {
             return
         }
         
+        refreshingToken = true
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -161,6 +173,7 @@ final class AuthManager {
         request.httpBody = components.query?.data(using: .utf8)
         
         URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            self?.refreshingToken = false
             guard let data = data, error == nil else {
                 print("failed inside error and data with the following error : \(String(describing: error?.localizedDescription))")
                 completion(false)
@@ -169,6 +182,8 @@ final class AuthManager {
             
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.onRefreshBlocks.forEach({$0(result.access_token)})
+                self?.onRefreshBlocks.removeAll()
                 self?.cacheToken(result: result)
                 print("succesfully refreshed")
                 completion(true)
