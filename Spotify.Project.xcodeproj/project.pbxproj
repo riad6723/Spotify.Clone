@@ -30,6 +30,7 @@
 		E09A4D562C35BBE400B135B2 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D552C35BBE400B135B2 /* Artist.swift */; };
 		E09A4D582C35BC0200B135B2 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D572C35BC0200B135B2 /* UserProfile.swift */; };
 		E0B1E5672C3DAD5700F8B6B8 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */; };
+		E0E843BA2C5E238600FCD132 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E843B92C5E238600FCD132 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		E09A4D552C35BBE400B135B2 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		E09A4D572C35BC0200B135B2 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		E0E843B92C5E238600FCD132 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				E09A4D552C35BBE400B135B2 /* Artist.swift */,
 				E09A4D572C35BC0200B135B2 /* UserProfile.swift */,
 				E0B1E5662C3DAD5700F8B6B8 /* AuthResponse.swift */,
+				E0E843B92C5E238600FCD132 /* Settings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				E09A4D1E2C35B7AC00B135B2 /* SceneDelegate.swift in Sources */,
 				E09A4D462C35BB2C00B135B2 /* PlayerViewController.swift in Sources */,
 				E09A4D422C35BB1900B135B2 /* SettingsViewController.swift in Sources */,
+				E0E843BA2C5E238600FCD132 /* Settings.swift in Sources */,
 				E09A4D542C35BBDA00B135B2 /* AutdioTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
