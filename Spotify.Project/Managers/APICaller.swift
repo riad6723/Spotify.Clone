@@ -35,10 +35,8 @@ final class APICaller {
                 
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-                    //completion(.success(result))
-                    print(result)
+                    completion(.success(result))
                 } catch {
-                    print("here 10")
                     completion(.failure(error))
                 }
             }
