@@ -21,6 +21,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
+        view.backgroundColor = .red
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -68,20 +69,22 @@ extension ProfileViewController {
     }
     
     private func createTableHeader(with url: String?) {
-        guard let url, let url = URL(string: url) else {
-            return
-        }
-        
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width/1.5))
         let imageSize = headerView.frame.height/2
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
         headerView.addSubview(imageView)
         imageView.center = headerView.center
         imageView.contentMode = .scaleAspectFill
-        imageView.sd_setImage(with: url, completed: nil)
         imageView.layer.cornerRadius = imageSize/2
         imageView.layer.masksToBounds = true
         tableView.tableHeaderView = headerView
+        
+        guard let url, let url = URL(string: url) else {
+            imageView.image = UIImage(systemName: "person")
+            return
+        }
+        
+        imageView.sd_setImage(with: url, completed: nil)
     }
 }
 
