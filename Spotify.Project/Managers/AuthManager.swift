@@ -104,7 +104,7 @@ final class AuthManager {
     
     private func cacheToken(result: AuthResponse) {
         UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
-        if let refreshToken {
+        if refreshToken == nil {
             UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
         }
         let currDate = Date()
@@ -132,13 +132,13 @@ final class AuthManager {
         }
     }
     
-    public func refreashIfNeeded(completion: @escaping (Bool) -> Void) {
+    public func refreashIfNeeded(completion: ((Bool) -> Void)?) {
         guard !refreshingToken else {
             return
         }
         
         guard shouldRefreshToken else {
-            completion(true)
+            completion?(true)
             return
         }
         
@@ -164,7 +164,7 @@ final class AuthManager {
         let basicToken = Constants.clientId + ":" + Constants.secret
         let data = basicToken.data(using: .utf8)
         guard let basic64String = data?.base64EncodedString() else {
-            completion(false)
+            completion?(false)
             return
         }
 
@@ -176,7 +176,7 @@ final class AuthManager {
             self?.refreshingToken = false
             guard let data = data, error == nil else {
                 print("failed inside error and data with the following error : \(String(describing: error?.localizedDescription))")
-                completion(false)
+                completion?(false)
                 return
             }
             
@@ -186,10 +186,10 @@ final class AuthManager {
                 self?.onRefreshBlocks.removeAll()
                 self?.cacheToken(result: result)
                 print("succesfully refreshed")
-                completion(true)
+                completion?(true)
             } catch {
                 print("json conversion failed")
-                completion(false)
+                completion?(false)
             }
         }.resume()
     }

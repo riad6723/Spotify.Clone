@@ -44,6 +44,88 @@ final class APICaller {
         }
     }
     
+    public func getLatestReleases(completion: @escaping (Result<NewReleasesResponse, APIError>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"), type: .GET) { request in
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data, error == nil else {
+                    print("failed")
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("failed")
+                    completion(.failure(.failedToGetData))
+                }
+            }.resume()
+        }
+    }
+    
+    public func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, APIError>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=50"), type: .GET) { request in
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+                    print("featured \(result)")
+                    completion(.success(result))
+                } catch {
+                    print("failed \(error.localizedDescription)")
+                    completion(.failure(.failedToGetData))
+                }
+            }.resume()
+        }
+    }
+    
+    public func getRecommendations(for genres: [String], completion: @escaping (Result<String, APIError>) -> Void) {
+        let seeds = genres.joined(separator: ",")
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?seed_genres=\(seeds)"), type: .GET) { request in
+            print(request)
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    print("featured \(result)")
+                    //completion(.success(result))
+                } catch {
+                    print("failed here in here \(error.localizedDescription)")
+                    completion(.failure(.failedToGetData))
+                }
+            }.resume()
+        }
+    }
+    
+    public func getRecommendedGenres(completion: @escaping (Result<RecommendedGenresResponse, APIError>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations/available-genre-seeds"), type: .GET) { request in
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
+                    print("featured \(result)")
+                    completion(.success(result))
+                } catch {
+                    print("failed \(error.localizedDescription)")
+                    completion(.failure(.failedToGetData))
+                }
+            }.resume()
+        }
+    }
+    
     private func createRequest(with url: URL?,type: HttpMethod, completion: @escaping (URLRequest) -> Void) {
         AuthManager.shared.withValidToken { token in
             guard let url else {
