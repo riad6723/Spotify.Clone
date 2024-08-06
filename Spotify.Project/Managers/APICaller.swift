@@ -74,7 +74,6 @@ final class APICaller {
                 
                 do {
                     let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
-                    print("featured \(result)")
                     completion(.success(result))
                 } catch {
                     print("failed \(error.localizedDescription)")
@@ -84,9 +83,9 @@ final class APICaller {
         }
     }
     
-    public func getRecommendations(for genres: [String], completion: @escaping (Result<String, APIError>) -> Void) {
+    public func getRecommendations(for genres: [String], completion: @escaping (Result<RecommendationsResponse, APIError>) -> Void) {
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?seed_genres=\(seeds)"), type: .GET) { request in
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=2&seed_genres=\(seeds)"), type: .GET) { request in
             print(request)
             URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data, error == nil else {
@@ -95,9 +94,9 @@ final class APICaller {
                 }
                 
                 do {
-                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-                    print("featured \(result)")
-                    //completion(.success(result))
+                    let result = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
+                    //print(result)
+                    completion(.success(result))
                 } catch {
                     print("failed here in here \(error.localizedDescription)")
                     completion(.failure(.failedToGetData))
@@ -116,7 +115,6 @@ final class APICaller {
                 
                 do {
                     let result = try JSONDecoder().decode(RecommendedGenresResponse.self, from: data)
-                    print("featured \(result)")
                     completion(.success(result))
                 } catch {
                     print("failed \(error.localizedDescription)")
