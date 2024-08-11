@@ -11,7 +11,7 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let vc1 = HomeViewController()
+        let vc1 = HomeViewController(viewModel: HomeViewModel())
         let vc2 = SearchViewController()
         let vc3 = LibraryViewController()
         

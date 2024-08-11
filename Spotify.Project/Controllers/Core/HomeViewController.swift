@@ -8,6 +8,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    private var sections = [BrowseSections]()
+    private var viewModel: HomeViewModel!
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
             switch sectionIndex {
@@ -27,26 +30,43 @@ class HomeViewController: UIViewController {
     }()
     
     enum BrowseSections {
-        case NewReleasesSection(model: [NewReleasesResponse])
-        case FeaturedPlaylistsSection(model: [FeaturedPlaylistsResponse])
-        case RecommendationsSection(model: [RecommendationsResponse])
+        case NewReleasesSection(model: NewReleasesResponse)
+        case FeaturedPlaylistsSection(model: FeaturedPlaylistsResponse)
+        case RecommendationsSection(model: RecommendationsResponse)
     }
     
-    private var sections = [BrowseSections]()
-    private var newReleases: NewReleasesResponse!
-    private var featuredPlaylists: FeaturedPlaylistsResponse!
-    private var recommendations: RecommendationsResponse!
-
+    init(viewModel: HomeViewModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapOnButton))
         configureCollectionView()
-        fetchData()
+        handleFetchingData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
+    }
+    
+    private func handleFetchingData() {
+        viewModel.fetchData { [weak self] newReleases, featuredPlaylists, recommendations in
+            guard let newReleases, let featuredPlaylists, let recommendations else {
+                return
+            }
+            self?.sections.append(.NewReleasesSection(model: newReleases))
+            self?.sections.append(.FeaturedPlaylistsSection(model: featuredPlaylists))
+            self?.sections.append(.RecommendationsSection(model: recommendations))
+            self?.collectionView.reloadData()
+        }
     }
     
     private func configureCollectionView() {
@@ -56,7 +76,7 @@ class HomeViewController: UIViewController {
         collectionView.register(NewReleasesSectionCell.self, forCellWithReuseIdentifier: NewReleasesSectionCell.identifier)
         collectionView.register(FeaturedPlaylistsSectionCell.self, forCellWithReuseIdentifier: FeaturedPlaylistsSectionCell.identifier)
         collectionView.register(RecommendationsSectionCell.self, forCellWithReuseIdentifier: RecommendationsSectionCell.identifier)
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .green
     }
     
     @objc private func didTapOnButton() {
@@ -75,7 +95,7 @@ extension HomeViewController {
         item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
         // group
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(300))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: layoutSize, repeatingSubitem: item, count: 3)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: layoutSize, repeatingSubitem: item, count: 3) //saying to stack items vertically inside the group
         group.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
         // section
         let section = NSCollectionLayoutSection(group: group)
@@ -118,18 +138,28 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = sections[section]
         switch type {
-        case .NewReleasesSection(let model):
-            return model.count
-        case .FeaturedPlaylistsSection(let model):
-            return model.count
-        case .RecommendationsSection(let model):
-            return model.count
+        case .NewReleasesSection(let newReleases):
+            return newReleases.albums.items?.count ?? 0
+        case .FeaturedPlaylistsSection(let featuredPlaylists):
+            return featuredPlaylists.playlists.items.count
+        case .RecommendationsSection(let recommendations):
+            return recommendations.tracks.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .green
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewReleasesSectionCell.identifier, for: indexPath) as? NewReleasesSectionCell else {
+            return UICollectionViewCell()
+        }
+        
+        let section = sections[indexPath.section]
+        switch section {
+        case .NewReleasesSection(let newReleases):
+            cell.configure(label1Text: "newReleases.albums.artists?.count", label2Text: "newReleases.albums.release_date!", label3Text: "newReleases.albums.total_tracks!")
+        default:
+            break
+        }
+        
         return cell
     }
     
@@ -139,70 +169,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 extension HomeViewController {
-    private func fetchData() {
-        let group = DispatchGroup()
-        group.enter()
-        group.enter()
-        group.enter()
-        
-        APICaller.shared.getLatestReleases { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    //print("The data is here: ", data)
-                    self?.newReleases = data
-                    group.leave()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    print("failed to fetch data")
-                }
-            }
-        }
-        
-        APICaller.shared.getFeaturedPlaylists { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    //print("The data is here: ", data)
-                    self?.featuredPlaylists = data
-                    group.leave()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    print("failed to fetch data")
-                }
-            }
-        }
-        
-        APICaller.shared.getRecommendedGenres { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let profile):
-                    let genres = profile.genres
-                    APICaller.shared.getRecommendations(for: Array(genres[0..<5])) { res in
-                        switch res {
-                        case .success(let data):
-                            self?.recommendations = data
-                            group.leave()
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
-            //print("newReleases are1: \(self?.newReleases)")
-            //print("newReleases are2: \(self?.featuredPlaylists)")
-            //print("newReleases are3: \(self?.recommendations)")
-            self?.sections.append(.NewReleasesSection(model: []))
-            self?.sections.append(.FeaturedPlaylistsSection(model: []))
-            self?.sections.append(.RecommendationsSection(model: []))
-        }
-    }
+
 }
 
 // MARK: TO DO
 // handle fetched data into the sections array for collectionView to display
+// viewModel added -> work in process
