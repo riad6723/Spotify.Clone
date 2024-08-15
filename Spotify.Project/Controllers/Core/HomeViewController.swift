@@ -148,19 +148,30 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewReleasesSectionCell.identifier, for: indexPath) as? NewReleasesSectionCell else {
-            return UICollectionViewCell()
-        }
-        
         let section = sections[indexPath.section]
+        let row = indexPath.row
+        
         switch section {
         case .NewReleasesSection(let newReleases):
-            cell.configure(label1Text: "newReleases.albums.artists?.count", label2Text: "newReleases.albums.release_date!", label3Text: "newReleases.albums.total_tracks!")
-        default:
-            break
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewReleasesSectionCell.identifier, for: indexPath) as? NewReleasesSectionCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(label1Text: newReleases.albums.items?[row].name, label2Text: newReleases.albums.items?[row].owner?.display_name, label3Text: newReleases.albums.items?[row].total_tracks)
+            return cell
+        case .FeaturedPlaylistsSection(let featuredPlaylists):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedPlaylistsSectionCell.identifier, for: indexPath) as? FeaturedPlaylistsSectionCell else {
+                return UICollectionViewCell()
+            }
+            //cell.configure(label1Text: newReleases.albums.items?.first?.name, label2Text: "newReleases.albums.release_date!", label3Text: "newReleases.albums.total_tracks!")
+            cell.backgroundColor = .red
+            return cell
+        case .RecommendationsSection(let recommendations):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationsSectionCell.identifier, for: indexPath) as? RecommendationsSectionCell else {
+                return UICollectionViewCell()
+            }
+            cell.backgroundColor = .cyan
+            return cell
         }
-        
-        return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

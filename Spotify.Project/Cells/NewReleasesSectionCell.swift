@@ -68,9 +68,9 @@ class NewReleasesSectionCell: UICollectionViewCell {
         }
         
         // MARK: - Cell Configuration
-        func configure(label1Text: String, label2Text: String, label3Text: String) {
+        func configure(label1Text: String?, label2Text: String?, label3Text: Int?) {
             label1.text = label1Text
             label2.text = label2Text
-            label3.text = label3Text
+            label3.text = String(label3Text!)
         }
 }

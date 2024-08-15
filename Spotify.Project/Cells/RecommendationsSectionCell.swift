@@ -9,5 +9,15 @@ import Foundation
 import UIKit
 
 class RecommendationsSectionCell: UICollectionViewCell {
-    static let identifier = "FeaturedPlaylistsSectionCell"
+    static let identifier = "RecommendationsSectionCell"
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        //setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        //setupViews()
+    }
 }
