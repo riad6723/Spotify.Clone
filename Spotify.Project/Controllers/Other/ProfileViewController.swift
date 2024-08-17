@@ -34,15 +34,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func fetchProfile() {
-        APICaller.shared.getRecommendedGenres { [weak self] result in
+        APICaller.shared.getCurrentUserProfile { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let profile):
-                    //self?.updateUI(with: profile)
-                    let genres = profile.genres
-                    APICaller.shared.getRecommendations(for: Array(genres[0..<5])) { res in
-                        print("ancajlcn \(res)")
-                    }
+                    self?.updateUI(with: profile)
+                    //let genres = profile.genres
+//                    APICaller.shared.getRecommendations(for: Array(genres[0..<5])) { res in
+//                        print("ancajlcn \(res)")
+//                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                     self?.failedToGetProfile()

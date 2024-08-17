@@ -76,7 +76,6 @@ class HomeViewController: UIViewController {
         collectionView.register(NewReleasesSectionCell.self, forCellWithReuseIdentifier: NewReleasesSectionCell.identifier)
         collectionView.register(FeaturedPlaylistsSectionCell.self, forCellWithReuseIdentifier: FeaturedPlaylistsSectionCell.identifier)
         collectionView.register(RecommendationsSectionCell.self, forCellWithReuseIdentifier: RecommendationsSectionCell.identifier)
-        collectionView.backgroundColor = .green
     }
     
     @objc private func didTapOnButton() {
@@ -156,7 +155,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewReleasesSectionCell.identifier, for: indexPath) as? NewReleasesSectionCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(label1Text: newReleases.albums.items?[row].name, label2Text: newReleases.albums.items?[row].owner?.display_name, label3Text: newReleases.albums.items?[row].total_tracks)
+            
+            cell.configure(model: .init(name: newReleases.albums.items?[row].name ?? "", artworkURL: newReleases.albums.items?[row].images.first?.url ?? "", numberOfTracks: newReleases.albums.items?[row].total_tracks ?? 0, artistName: newReleases.albums.items?[row].artists?.first?.name ?? ""))
+            cell.backgroundColor = UIColor(white: 0.9, alpha: 0.5)
             return cell
         case .FeaturedPlaylistsSection(let featuredPlaylists):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedPlaylistsSectionCell.identifier, for: indexPath) as? FeaturedPlaylistsSectionCell else {
