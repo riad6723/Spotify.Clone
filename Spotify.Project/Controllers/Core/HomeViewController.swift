@@ -158,13 +158,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             cell.configure(model: .init(name: newReleases.albums.items?[row].name ?? "", artworkURL: newReleases.albums.items?[row].images.first?.url ?? "", numberOfTracks: newReleases.albums.items?[row].total_tracks ?? 0, artistName: newReleases.albums.items?[row].artists?.first?.name ?? ""))
             cell.backgroundColor = UIColor(white: 0.9, alpha: 0.5)
+            //cell.backgroundColor = UIColor(red: 0.90, green: 0.95, blue: 1.00, alpha: 1.00)
             return cell
         case .FeaturedPlaylistsSection(let featuredPlaylists):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedPlaylistsSectionCell.identifier, for: indexPath) as? FeaturedPlaylistsSectionCell else {
                 return UICollectionViewCell()
             }
-            //cell.configure(label1Text: newReleases.albums.items?.first?.name, label2Text: "newReleases.albums.release_date!", label3Text: "newReleases.albums.total_tracks!")
-            cell.backgroundColor = .red
+            
+            cell.configure(model: .init(url: featuredPlaylists.playlists.items[row].images.first?.url ?? "", name: featuredPlaylists.playlists.items[row].name ?? "", creatorName: featuredPlaylists.playlists.items[row].owner?.display_name ?? ""))
+            cell.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
+            //cell.backgroundColor = UIColor(white: 0.2, alpha: 1.0)
             return cell
         case .RecommendationsSection(let recommendations):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendationsSectionCell.identifier, for: indexPath) as? RecommendationsSectionCell else {
@@ -179,11 +182,3 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         sections.count
     }
 }
-
-extension HomeViewController {
-
-}
-
-// MARK: TO DO
-// handle fetched data into the sections array for collectionView to display
-// viewModel added -> work in process

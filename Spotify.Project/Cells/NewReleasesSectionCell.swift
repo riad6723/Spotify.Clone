@@ -61,6 +61,7 @@ class NewReleasesSectionCell: UICollectionViewCell {
         label1.text = nil
         label2.text = nil
         label3.text = nil
+        imageView.image = nil
     }
     
     // MARK: - Setup Views
