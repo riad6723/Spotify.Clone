@@ -19,6 +19,7 @@
 		E096BDFF2C62F8E700FCFC6B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E096BDFE2C62F8E700FCFC6B /* HomeViewModel.swift */; };
 		E096BE032C6FB18700FCFC6B /* NewReleasesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E096BE022C6FB18700FCFC6B /* NewReleasesProtocol.swift */; };
 		E096BE052C710BAE00FCFC6B /* FeaturedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E096BE042C710BAE00FCFC6B /* FeaturedProtocol.swift */; };
+		E096BE072C71B18F00FCFC6B /* RecommendationsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E096BE062C71B18F00FCFC6B /* RecommendationsProtocol.swift */; };
 		E09A4D1C2C35B7AC00B135B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D1B2C35B7AC00B135B2 /* AppDelegate.swift */; };
 		E09A4D1E2C35B7AC00B135B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D1D2C35B7AC00B135B2 /* SceneDelegate.swift */; };
 		E09A4D202C35B7AC00B135B2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09A4D1F2C35B7AC00B135B2 /* HomeViewController.swift */; };
@@ -60,6 +61,7 @@
 		E096BDFE2C62F8E700FCFC6B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E096BE022C6FB18700FCFC6B /* NewReleasesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesProtocol.swift; sourceTree = "<group>"; };
 		E096BE042C710BAE00FCFC6B /* FeaturedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedProtocol.swift; sourceTree = "<group>"; };
+		E096BE062C71B18F00FCFC6B /* RecommendationsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsProtocol.swift; sourceTree = "<group>"; };
 		E09A4D182C35B7AC00B135B2 /* Spotify.Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E09A4D1B2C35B7AC00B135B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E09A4D1D2C35B7AC00B135B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				E096BE022C6FB18700FCFC6B /* NewReleasesProtocol.swift */,
 				E096BE042C710BAE00FCFC6B /* FeaturedProtocol.swift */,
+				E096BE062C71B18F00FCFC6B /* RecommendationsProtocol.swift */,
 			);
 			path = CollectionViewCellProtocols;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				E096BDF02C5FF3D400FCFC6B /* FeaturedPlaylistsResponse.swift in Sources */,
 				E096BDF92C628B4200FCFC6B /* NewReleasesSectionCell.swift in Sources */,
 				E096BDFF2C62F8E700FCFC6B /* HomeViewModel.swift in Sources */,
+				E096BE072C71B18F00FCFC6B /* RecommendationsProtocol.swift in Sources */,
 				E09A4D542C35BBDA00B135B2 /* AutdioTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,7 +22,6 @@ final class HomeViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
-                    //print("The data is here: ", data)
                     self?.newReleases = data
                     group.leave()
                 case .failure(let error):
@@ -36,7 +35,6 @@ final class HomeViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
-                    //print("The data is here: ", data)
                     self?.featuredPlaylists = data
                     group.leave()
                 case .failure(let error):
@@ -67,9 +65,6 @@ final class HomeViewModel {
         }
         
         group.notify(queue: .main) { [weak self] in
-            //print("newReleases are1: \(self?.newReleases)")
-            //print("newReleases are2: \(self?.featuredPlaylists)")
-            //print("newReleases are3: \(self?.recommendations)")
             completion(self?.newReleases, self?.featuredPlaylists, self?.recommendations)
         }
     }

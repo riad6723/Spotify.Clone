@@ -58,9 +58,9 @@ class FeaturedPlaylistsSectionCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = CGRect(x: width/6, y: 0, width: 2*width/3, height: height/2)
-        label1.frame = CGRect(x: 0, y: height/2, width: width, height: height/4)
-        label2.frame = CGRect(x: 0, y: 3*height/4, width: width, height: height/4)
+        imageView.frame = CGRect(x: width/6, y: 0, width: 2*width/3, height: 2*height/3)
+        label1.frame = CGRect(x: 0, y: 2*height/3, width: width, height: height/6)
+        label2.frame = CGRect(x: 0, y: 5*height/6, width: width, height: height/6)
     }
     
     override func prepareForReuse() {

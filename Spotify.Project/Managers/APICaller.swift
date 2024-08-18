@@ -85,7 +85,7 @@ final class APICaller {
     
     public func getRecommendations(for genres: [String], completion: @escaping (Result<RecommendationsResponse, APIError>) -> Void) {
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=2&seed_genres=\(seeds)"), type: .GET) { request in
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=10&seed_genres=\(seeds)"), type: .GET) { request in
             print(request)
             URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data, error == nil else {
@@ -95,7 +95,6 @@ final class APICaller {
                 
                 do {
                     let result = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
-                    //print(result)
                     completion(.success(result))
                 } catch {
                     print("failed here in here \(error.localizedDescription)")
