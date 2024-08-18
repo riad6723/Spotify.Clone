@@ -39,10 +39,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 switch result {
                 case .success(let profile):
                     self?.updateUI(with: profile)
-                    //let genres = profile.genres
-//                    APICaller.shared.getRecommendations(for: Array(genres[0..<5])) { res in
-//                        print("ancajlcn \(res)")
-//                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                     self?.failedToGetProfile()
@@ -102,9 +98,7 @@ extension ProfileViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UITableViewCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         cell.textLabel?.text = profileDetails[indexPath.row]
         cell.selectionStyle = .none

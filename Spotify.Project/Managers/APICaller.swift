@@ -28,7 +28,6 @@ final class APICaller {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"), type: .GET) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data, error == nil else {
-                    print("here 9")
                     completion(.failure(APIError.failedToGetData))
                     return
                 }

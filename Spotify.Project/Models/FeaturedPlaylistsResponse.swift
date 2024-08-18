@@ -12,16 +12,6 @@ struct FeaturedPlaylistsResponse: Codable {
     let playlists: Playlist
 }
 
-struct Playlist: Codable {
-    let href: String
-    let items: [Item]
-    let limit: Int
-    let next: String
-    let offset: Int
-    let previous: String?
-    let total: Int
-}
-
 struct Owner: Codable {
     let display_name: String
     let external_urls: [String: String]

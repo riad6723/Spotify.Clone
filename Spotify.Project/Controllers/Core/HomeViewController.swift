@@ -181,4 +181,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         sections.count
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        switch section {
+        case 0:
+            let vc = NewReleasesViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+    }
 }
+
+// TODO: navigate from three sections into details viewController -> implement those VC
