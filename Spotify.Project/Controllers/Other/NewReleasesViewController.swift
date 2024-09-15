@@ -8,7 +8,10 @@
 import UIKit
 
 class NewReleasesViewController: UIViewController {
-    init() {
+    let item: Item
+    
+    init(item: Item) {
+        self.item = item
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -18,7 +21,7 @@ class NewReleasesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "new releases"
+        title = item.name
         view.backgroundColor = .cyan
     }
 }

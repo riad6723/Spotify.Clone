@@ -183,12 +183,22 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let section = indexPath.section
+        let section = sections[indexPath.section]
         let row = indexPath.row
         
         switch section {
-        case 0:
-            let vc = NewReleasesViewController()
+        case .NewReleasesSection(let newReleases):
+            guard let item = newReleases.albums.items?[row] else {
+                return
+            }
+            
+            let vc = NewReleasesViewController(item: item)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .FeaturedPlaylistsSection(let playLists):
+            let item = playLists.playlists.items[row]
+            let vc = PlaylistViewController(item: item)
+            vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
         default:
             break
@@ -196,4 +206,4 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-// TODO: navigate from three sections into details viewController -> implement those VC
+// TODO: navigate from remaining one sections into details viewController -> implement three VC -> vdo 11 7.44 done

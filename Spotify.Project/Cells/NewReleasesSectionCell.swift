@@ -97,7 +97,7 @@ class NewReleasesSectionCell: UICollectionViewCell {
     func configure(model: NewReleases) {
         label1.text = model.name
         label2.text = model.artistName
-        label3.text = String(model.numberOfTracks)
+        label3.text = "Number of trackes: \(model.numberOfTracks)"
         
         guard let url = URL(string: model.artworkURL) else {
             return
