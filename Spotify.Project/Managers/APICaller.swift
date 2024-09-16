@@ -24,6 +24,27 @@ final class APICaller {
         static let baseAPIURL = "https://api.spotify.com/v1"
     }
     
+    public func getAlbumDetails(for album: Item, completion: @escaping (Result<Int, Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/albums/" + album.id), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    print("my json is \(json)")
+                    completion(.success(1))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    // TODO: need to know exact type of the success result
+    
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"), type: .GET) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in

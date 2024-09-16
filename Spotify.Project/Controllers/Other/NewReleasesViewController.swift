@@ -23,5 +23,14 @@ class NewReleasesViewController: UIViewController {
         super.viewDidLoad()
         title = item.name
         view.backgroundColor = .cyan
+        
+        APICaller.shared.getAlbumDetails(for: item) { result in
+            switch result {
+            case .success(let ans):
+                print(ans)
+            case .failure(let error):
+                print("the error is \(error)")
+            }
+        }
     }
 }
